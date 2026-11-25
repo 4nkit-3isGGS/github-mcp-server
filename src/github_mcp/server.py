@@ -1,22 +1,10 @@
 from mcp.server import MCPServer
 
-from github_mcp.client.github import github_client, GitHubAPIError
+from github_mcp.tools.repositories import register_repository_tools
 
 mcp = MCPServer("Github MCP Server")
 
-@mcp.tool()
-async def get_authenticated_user() -> dict:
-     """Get details about the currently authenticated GitHub user."""
-     try:
-        data = await github_client.get("/user")
-        return {
-            "login": data.get("login"),
-            "name": data.get("name"),
-            "public_repos": data.get("public_repos"),
-            "html_url": data.get("html_url"),
-        }
-     except GitHubAPIError as exc:
-        return {"error": str(exc)}
+register_repository_tools(mcp)
 
 def main() -> None:
     mcp.run()
