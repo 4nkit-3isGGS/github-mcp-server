@@ -6,17 +6,17 @@ def register_repository_tools(mcp: MCPServer) -> None:
     """Register repository and user-related GitHub tools."""
     @mcp.tool()
     async def get_authenticated_user() -> dict:
-     """Get details about the currently authenticated GitHub user."""
-     try:
-        data = await github_client.get("/user")
-        return {
-            "login": data.get("login"),
-            "name": data.get("name"),
-            "public_repos": data.get("public_repos"),
-            "html_url": data.get("html_url"),
-        }
-     except GitHubAPIError as exc:
-        return {"error": str(exc)}
+        """Get details about the currently authenticated GitHub user."""
+        try:
+            data = await github_client.get("/user")
+            return {
+                "login": data.get("login"),
+                "name": data.get("name"),
+                "public_repos": data.get("public_repos"),
+                "html_url": data.get("html_url"),
+            }
+        except GitHubAPIError as exc:
+            return {"error": str(exc)}
 
     @mcp.tool()
     async def get_repository(owner: str, repo: str) -> dict:
